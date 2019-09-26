@@ -226,8 +226,7 @@ extern "C" {
         ModeDecisionContext                  *context_ptr,
         PictureControlSet                    *picture_control_set_ptr,
         uint8_t                               tx_depth,
-        EbBool                                block_has_coeff,
-        EbBool                                is_inter);
+        EbBool                                block_has_coeff);
 #endif
 #ifdef __cplusplus
 }

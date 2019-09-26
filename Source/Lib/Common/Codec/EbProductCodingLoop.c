@@ -3646,7 +3646,6 @@ void tx_initialize_neighbor_arrays(
 }
 
 void tx_update_neighbor_arrays(
-    SequenceControlSet           *sequence_control_set_ptr,
     PictureControlSet            *picture_control_set_ptr,
     ModeDecisionContext          *context_ptr,
     ModeDecisionCandidateBuffer  *candidate_buffer,
@@ -3680,7 +3679,6 @@ void tx_update_neighbor_arrays(
 
 
 void tx_reset_neighbor_arrays(
-    SequenceControlSet  *sequence_control_set_ptr,
     PictureControlSet   *picture_control_set_ptr,
     ModeDecisionContext *context_ptr,
     EbBool               is_inter,
@@ -3727,8 +3725,6 @@ void tx_type_search(
     TxSize txSize = context_ptr->blk_geom->txsize[context_ptr->tx_depth][context_ptr->txb_itr];
     int32_t is_inter = (candidate_buffer->candidate_ptr->type == INTER_MODE || candidate_buffer->candidate_ptr->use_intrabc) ? EB_TRUE : EB_FALSE;
     const TxSetType tx_set_type = get_ext_tx_set_type(txSize, is_inter, picture_control_set_ptr->parent_pcs_ptr->tx_search_reduced_set);
-    int32_t allowed_tx_num = 0;
-
     uint8_t txb_origin_x = (uint8_t)context_ptr->blk_geom->tx_org_x[context_ptr->tx_depth][context_ptr->txb_itr];
     uint8_t txb_origin_y = (uint8_t)context_ptr->blk_geom->tx_org_y[context_ptr->tx_depth][context_ptr->txb_itr];
     uint32_t tu_origin_index = txb_origin_x + (txb_origin_y * candidate_buffer->residual_ptr->stride_y);
@@ -4345,8 +4341,7 @@ uint64_t get_tx_size_bits(
     ModeDecisionContext          *context_ptr,
     PictureControlSet            *picture_control_set_ptr,
     uint8_t tx_depth,
-    EbBool block_has_coeff,
-    EbBool is_inter) {
+    EbBool block_has_coeff) {
 
     uint64_t tx_size_bits = 0;
 
@@ -4432,7 +4427,6 @@ void tx_partitioning_path(
 
 
     tx_reset_neighbor_arrays(
-        sequence_control_set_ptr,
         picture_control_set_ptr,
         context_ptr,
         is_inter,
@@ -4512,7 +4506,6 @@ void tx_partitioning_path(
             uint32_t y_has_coeff = tx_y_count_non_zero_coeffs[context_ptr->txb_itr] > 0;
 
             tx_update_neighbor_arrays(
-                sequence_control_set_ptr,
                 picture_control_set_ptr,
                 context_ptr,
                 tx_candidate_buffer,
@@ -4530,8 +4523,7 @@ void tx_partitioning_path(
                 context_ptr,
                 picture_control_set_ptr,
                 context_ptr->tx_depth,
-                block_has_coeff,
-                is_inter);
+                block_has_coeff);
 
         uint64_t cost = RDCOST(context_ptr->full_lambda, (tx_y_coeff_bits + tx_size_bits), tx_y_full_distortion[DIST_CALC_RESIDUAL]);
 

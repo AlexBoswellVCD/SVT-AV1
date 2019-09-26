@@ -1843,8 +1843,7 @@ EbErrorType Av1FullCost(
             context_ptr,
             picture_control_set_ptr,
             candidate_buffer_ptr->candidate_ptr->tx_depth,
-            candidate_buffer_ptr->candidate_ptr->block_has_coeff,
-            candidate_buffer_ptr->candidate_ptr->type != INTRA_MODE);
+            candidate_buffer_ptr->candidate_ptr->block_has_coeff);
 #endif
 
     // Coeff rate
@@ -1995,8 +1994,7 @@ EbErrorType  Av1MergeSkipFullCost(
             context_ptr,
             picture_control_set_ptr,
             candidate_buffer_ptr->candidate_ptr->tx_depth,
-            candidate_buffer_ptr->candidate_ptr->block_has_coeff,
-            candidate_buffer_ptr->candidate_ptr->type != INTRA_MODE);
+            candidate_buffer_ptr->candidate_ptr->block_has_coeff);
     mergeRate += tx_size_bits;
 #endif
 

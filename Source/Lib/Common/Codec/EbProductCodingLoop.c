@@ -4179,15 +4179,7 @@ static uint64_t cost_selected_tx_size(
         const TxSize tx_size = mbmi->tx_size;
         const int tx_size_ctx = get_tx_size_context(xd);
         const int depth = tx_size_to_depth(tx_size, bsize);
-        const int max_depths = bsize_to_max_depth(bsize);
         const int32_t tx_size_cat = bsize_to_tx_size_cat(bsize);
-
-        assert(depth >= 0 && depth <= max_depths);
-        assert(!is_inter_block(mbmi));
-        assert(IMPLIES(is_rect_tx(tx_size), is_rect_tx_allowed(/*xd,*/ mbmi)));
-
-        /*aom_write_symbol(w, depth, ec_ctx->tx_size_cdf[tx_size_cat][tx_size_ctx],
-            max_depths + 1);*/
         bits += md_rate_estimation_ptr->tx_size_fac_bits[tx_size_cat][tx_size_ctx][depth];
     }
 
@@ -4205,8 +4197,6 @@ static uint64_t tx_size_bits(
     uint64_t bits = 0;
 
     int is_inter_tx = is_inter_block(mbmi) || is_intrabc_block(mbmi);
-    //int skip = mbmi->skip;
-    //int segment_id = 0;// mbmi->segment_id;
     if (tx_mode == TX_MODE_SELECT && block_signals_txsize(bsize) &&
         !(is_inter_tx && skip) /*&& !xd->lossless[segment_id]*/) {
         if (is_inter_tx) {  // This implies skip flag is 0.

@@ -4103,16 +4103,6 @@ static INLINE int tx_size_to_depth(TxSize tx_size, BlockSize bsize) {
     return depth;
 }
 
-
-static INLINE int bsize_to_max_depth(BlockSize bsize) {
-    TxSize tx_size = max_txsize_rect_lookup[bsize];
-    int depth = 0;
-    while (depth < MAX_TX_DEPTH && tx_size != TX_4X4) {
-        depth++;
-        tx_size = sub_tx_size_map[tx_size];
-    }
-    return depth;
-}
 static INLINE int bsize_to_tx_size_cat(BlockSize bsize) {
     TxSize tx_size = max_txsize_rect_lookup[bsize];
     assert(tx_size != TX_4X4);
